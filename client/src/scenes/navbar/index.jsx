@@ -46,24 +46,31 @@ const Navbar = () => {
     const fullName = user?.firstname && user?.lastname ? `${user.firstname} ${user.lastname}` : '';
 
     return (
-        <FlexBetween padding="1rem 6%" backgroundColor={alt}>
+        <FlexBetween padding="1rem 6%" backgroundColor={alt} position="fixed" top="0" zIndex="1000" width="100%">
+
             <FlexBetween gap='1.75rem'>
-                <Typography
-                    fontWeight="bold"
-                    fontSize="clamp(1rem, 2rem, 2.25rem)"
-                    color="primary"
-                    onClick={() => {
-                        navigate("/home")
-                    }}
-                    sx={{
-                        "&:hover": {
-                            color: primaryLight,
-                            cursor: "pointer"
-                        }
-                    }}
+                <Box 
+                display="flex" justifyContent="center" alignItems="center"
                 >
-                    Kairos
-                </Typography>
+                    <img src="../assets/kairosLogo.png" alt="Logo" width="90rem" />
+                    <Typography
+                        fontWeight="bold"
+                        fontSize="clamp(1rem, 2rem, 2.25rem)"
+                        color="#a591bd"
+                        onClick={() => {
+                            navigate("/home")
+                        }}
+                        sx={{
+                            "&:hover": {
+                                color: primaryLight,
+                                cursor: "pointer"
+                            }
+                        }}
+                    >
+                        Kairos
+                    </Typography>
+                </Box>
+
 
                 {/* Serch  */}
                 {nonMobileScreen && (

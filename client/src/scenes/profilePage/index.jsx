@@ -30,7 +30,7 @@ const ProfilePage = () => {
     if (!user) return null;
 
     return (
-        <Box>
+        <Box mt="8rem">
             <Navbar />
             <Box
                 width="100%"

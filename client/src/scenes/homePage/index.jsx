@@ -22,19 +22,22 @@ const HomePage = () => {
                 display={isNonMobileScreens ? "flex" : "block"}
                 gap="0.5rem"
                 justifyContent="space-between"
+                mt="8rem"
+
             >
-                <Box flexBasis={isNonMobileScreens ? "26%" : undefined}>
+                <Box flexBasis={isNonMobileScreens ? "26%" : undefined} position="fixed" left="1rem">
                     <UserWidget userId={_id} picturePath={picturePath} />
                 </Box>
                 <Box
                     flexBasis={isNonMobileScreens ? "42%" : undefined}
                     mt={isNonMobileScreens ? undefined : "2rem"}
+                    mx="auto"
                 >
                     <MyPostWidget userId={_id} picturePath={picturePath} />
                     <PostsWidget userId={_id} />
                 </Box>
                 {isNonMobileScreens && (
-                    <Box flexBasis="26%">
+                    <Box flexBasis="26%" position="fixed" right="1rem" maxWidth="28%">
                         <AdvertWidget />
                         <Box m="2rem 0" />
                         <FriendListWidget userId={_id} />

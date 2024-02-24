@@ -103,11 +103,14 @@ const PostWidget = ({
 
     return (
         <WidgetWrapper m="2rem 0">
+
+
             <Friend
                 friendId={postUserId}
                 name={name}
                 subtitle={location}
                 userPicturePath={userPicturePath}
+                loggedInUserId={loggedInUserId}
             />
             <Typography color={main} sx={{ mt: "1rem" }}>
                 {description}
