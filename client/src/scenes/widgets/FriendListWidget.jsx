@@ -13,7 +13,7 @@ const FriendListWidget = ({ userId }) => {
 
     const getFriends = async () => {
         const response = await fetch(
-            `http://kairos-opal.vercel.app/users/${userId}/friends`,
+            `http://kairos-murex.vercel.app/users/${userId}/friends`,
             {
                 method: "GET",
                 headers: { Authorization: `Bearer ${token}` },

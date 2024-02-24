@@ -15,7 +15,7 @@ const ProfilePage = () => {
     const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
 
     const getUser = async () => {
-        const response = await fetch(`http://kairos-opal.vercel.app/users/${userId}`, {
+        const response = await fetch(`http://kairos-murex.vercel.app/users/${userId}`, {
             method: "GET",
             headers: { Authorization: `Bearer ${token}` },
         });
