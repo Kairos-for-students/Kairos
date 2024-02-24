@@ -66,7 +66,7 @@ const PostWidget = ({
     };
 
     const patchLike = async () => {
-        const response = await fetch(`http://localhost:3001/posts/${postId}/like`, {
+        const response = await fetch(`http://kairos-opal.vercel.app/posts/${postId}/like`, {
             method: "PATCH",
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -81,7 +81,7 @@ const PostWidget = ({
     console.log("Post Id: " + postId);
 
     const deletePost = async () => {
-        const response = await fetch(`http://localhost:3001/posts/${postId}/delete`, {
+        const response = await fetch(`http://kairos-opal.vercel.app/posts/${postId}/delete`, {
             method: "DELETE",
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -121,7 +121,7 @@ const PostWidget = ({
                     height="auto"
                     alt="post"
                     style={{ borderRadius: "0.75rem", marginTop: "0.75rem" }}
-                    src={`http://localhost:3001/assets/${picturePath}`}
+                    src={`http://kairos-opal.vercel.app/assets/${picturePath}`}
                 />
             )}
             <FlexBetween mt="0.25rem">

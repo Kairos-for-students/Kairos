@@ -7,7 +7,7 @@ const UserImage = ({image, size="60px"}) => {
         style={{ objectFit: 'cover', borderRadius: "50%"}}
         width={size} height={size}
         alt="user"
-        src={`http://localhost:3001/assets/${image}`}
+        src={`http://kairos-opal.vercel.app/assets/${image}`}
         />
     </Box>
 )}
