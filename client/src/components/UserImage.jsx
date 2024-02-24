@@ -7,7 +7,7 @@ const UserImage = ({image, size="60px"}) => {
         style={{ objectFit: 'cover', borderRadius: "50%"}}
         width={size} height={size}
         alt="user"
-        src={`http://kairos-murex.vercel.app/assets/${image}`}
+        src={`https://kairos-murex.vercel.app/assets/${image}`}
         />
     </Box>
 )}

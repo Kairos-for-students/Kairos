@@ -81,7 +81,7 @@ const Form = () => {
         }
 
         // Send the formdata in the request
-        const savedUserResponse = await fetch("http://kairos-murex.vercel.app/auth/register", {
+        const savedUserResponse = await fetch("https://kairos-murex.vercel.app/auth/register", {
             method: "POST",
             body: formdata,
         });
@@ -97,7 +97,7 @@ const Form = () => {
 
     const login = async (values, onSubmitProps) => {
         const loggedInResponse = await fetch(
-            "http://kairos-murex.vercel.app/auth/login",
+            "https://kairos-murex.vercel.app/auth/login",
             {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
