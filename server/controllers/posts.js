@@ -11,10 +11,12 @@ export const createPost = async (req, res) => {
 
         if (req.file) {
             // Upload the image to Cloudinary
-            const result = await cloudinary.uploader.upload(req.file.path);
+            const result = await cloudinary.uploader.upload(picturePath);
 
             // Get the Cloudinary URL of the uploaded image
-            const picturePath = result.secure_url;
+            const finalPicturePath = result.secure_url;
+            console.log("Picture Path:" ,picturePath)
+
         }
 
         const newPost = new Post({

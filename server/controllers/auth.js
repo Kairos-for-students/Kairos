@@ -17,8 +17,17 @@ export const register = async (req, res) => {
             occupation,
         } = req.body;
 
-        // Set default value if picturePath is not provided
-        const actualPicturePath = picturePath || "maleAvtaar.jpg";
+        if (req.file) {
+            // Upload the image to Cloudinary
+            const result = await cloudinary.uploader.upload(picturePath);
+
+            // Get the Cloudinary URL of the uploaded image
+            const actualPicturePath = result.secure_url;
+            console.log("Picture Path:" ,picturePath)
+
+        } else {
+            const actualPicturePath = "maleAvtaar.jpg";
+        }
 
         const salt = await bcrypt.genSalt();
         const passwordHash = await bcrypt.hash(password, salt);
