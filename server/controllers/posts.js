@@ -1,5 +1,6 @@
 import Post from '../models/posts.js';
 import User from '../models/user.js';
+import cloudinary from '../utils/cloudinary.js';
 
 //Create
 export const createPost = async (req, res) => {
@@ -7,16 +8,25 @@ export const createPost = async (req, res) => {
         const { userId, description, picturePath } = req.body;
         console.log("Post request: ", req.params);
         const user = await User.findById(userId);
+
+        if (req.file) {
+            // Upload the image to Cloudinary
+            const result = await cloudinary.uploader.upload(req.file.path);
+
+            // Get the Cloudinary URL of the uploaded image
+            const picturePath = result.secure_url;
+        }
+
         const newPost = new Post({
             userId,
             firstname: user.firstname,
             lastname: user.lastname,
             location: user.location,
             description,
-            userPicturePath: user.picturePath, 
-            picturePath,
+            userPicturePath: user.picturePath,
+            picturePath: picturePath,
             likes: {},
-            comments: [] 
+            comments: []
         })
 
         await newPost.save();
@@ -71,10 +81,10 @@ export const likePosts = async (req, res) => {
             post.likes.set(userId, true);
         }
 
-        const updatedPost = await Post.findByIdAndUpdate( 
-            id, 
-            {likes: post.likes},
-            {new : true}
+        const updatedPost = await Post.findByIdAndUpdate(
+            id,
+            { likes: post.likes },
+            { new: true }
         )
 
 
@@ -104,5 +114,5 @@ export const deletePost = async (req, res) => {
     } catch (err) {
         res.status(404).json({ message: err.message });
     }
-} 
+}
 
