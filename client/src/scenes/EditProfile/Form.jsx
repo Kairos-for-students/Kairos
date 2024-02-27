@@ -11,12 +11,13 @@ import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import { Formik } from "formik";
 import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setLogin } from "state";
 import Dropzone from "react-dropzone";
 import FlexBetween from "components/FlexBetween";
 
-const registerSchema = yup.object().shape({
+
+const editSchema = yup.object().shape({
     firstname: yup.string().required("required"),
     lastname: yup.string().required("required"),
     email: yup.string().email("invalid email").required("required"),
@@ -28,120 +29,45 @@ const registerSchema = yup.object().shape({
     picture: yup.string(),
 })
 
-const loginSchema = yup.object().shape({
-    email: yup.string().email("invalid email").required("required"),
-    password: yup.string().required("required"),
-})
-
-const initialValueRegister = {
-    firstname: "",
-    lastname: "",
-    email: "",
-    password: "",
-    location: "",
-    college: "",
-    year: null,
-    branch: "",
-    picture: ""
-}
 
 
-
-const initialValueLogin = {
-    email: "",
-    password: ""
-}
-
-const Form = () => {
-    const [pageType, setPageType] = useState("login");
+const EditProfile = () => {
     const { palette } = useTheme();
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const nonMobileScreen = useMediaQuery("(min-width:600px)")
-    const isLogin = pageType === "login"
-    const isRegister = pageType === "register"
 
-    const register = async (values, onSubmitProps) => {
-        try {
-            // Create a new FormData instance
-            const formdata = new FormData();
+    const {
+        _id,
+        firstname,
+        lastname,
+        email,
+        picturePath,
+        location,
+        year,
+        college,
+        branch } = useSelector((state) => state.user);
 
-            // Iterate over the form values
-            for (let value in values) {
-                // If the current value is "picture" and it's falsy (not selected by the user)
-                if (value === "picture" && !values[value]) {
-                    // Append the default picture path directly or use the actual content of the default image
-                    formdata.append(value, "maleAvtaar.jpg"); // Set your default picture path
-                } else {
-                    // For other fields, append the values as usual
-                    formdata.append(value, values[value]);
-                }
-            }
-
-            // Append the picturePath separately based on whether a picture is selected or not
-            if (!values.picture || !values.picture.name) {
-                formdata.append("picturePath", "maleAvtaar.jpg");
-            } else {
-                formdata.append("picturePath", values.picture.name);
-            }
-
-            console.log("Form Data:", formdata);
-
-            // Send the formdata in the request
-            const savedUserResponse = await fetch("http://localhost:3001/auth/register", {
-                method: "POST",
-                body: formdata,
-            });
-
-            // Handle the response as needed
-            const savedUser = await savedUserResponse.json();
-            onSubmitProps.resetForm();
-
-            if (savedUser) {
-                setPageType("login");
-            }
-        } catch (error) {
-            console.error("Registration Error:", error);
-        }
-    };
-
-
-    const login = async (values, onSubmitProps) => {
-        const loggedInResponse = await fetch(
-            "http://localhost:3001/auth/login",
-            {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(values),
-            }
-        );
-        const loggedIn = await loggedInResponse.json();
-        onSubmitProps.resetForm();
-        if (loggedIn) {
-            dispatch(
-                setLogin({
-                    user: loggedIn.user,
-                    token: loggedIn.token
-                }
-                )
-            );
-            navigate("/home");
-        }
+    const initialValuesEdit = {
+        firstname: firstname,
+        lastname: lastname,
+        email: email,
+        location: location,
+        college: college,
+        year: year,
+        branch: branch,
+        picture: picturePath,
     }
 
     const handleFormSubmit = async (values, onSubmitProps) => {
-        if (isLogin) {
-            await login(values, onSubmitProps);
-        }
-        if (isRegister) {
-            await register(values, onSubmitProps)
-        }
+
     }
+
     return (
         <Formik
             onSubmit={(values, onSubmitProps) => handleFormSubmit(values, onSubmitProps)}
-            initialValues={isLogin ? initialValueLogin : initialValueRegister}
-            validationSchema={isLogin ? loginSchema : registerSchema}
+            initialValues={initialValuesEdit}
+            validationSchema={editSchema}
         >
             {({
                 values,
@@ -162,9 +88,7 @@ const Form = () => {
                             "& > div": { gridColumn: nonMobileScreen ? undefined : "span 4" },
                         }}
                     >
-
-                        {isRegister && (
-                            <>
+                        <>
                                 <TextField
                                     label="First Name"
                                     onBlur={handleBlur}
@@ -285,77 +209,11 @@ const Form = () => {
                                     </Dropzone>
                                 </Box>
                             </>
-                        )}
-
-                        <TextField
-                            label="Email"
-                            onBlur={handleBlur}
-                            onChange={handleChange}
-                            value={values.email}
-                            name="email"
-                            error={Boolean(touched.email) && errors.email}
-                            helperText={touched.email && errors.email}
-                            sx={{
-                                gridColumn: "span 4"
-                            }}
-                        />
-
-                        <TextField
-                            label="Password"
-                            type="password"
-                            onBlur={handleBlur}
-                            onChange={handleChange}
-                            value={values.password}
-                            name="password"
-                            error={Boolean(touched.password) && errors.password}
-                            helperText={touched.password && errors.password}
-                            sx={{
-                                gridColumn: "span 2"
-                            }}
-                        />
                     </Box>
-
-
-                    {/* Buttons  */}
-                    <Box>
-                        <Button
-                            fullWidth
-                            type="submit"
-                            sx={{
-                                m: "2rem 0",
-                                p: "1rem",
-                                backgroundColor: palette.primary.main,
-                                color: palette.background.alt,
-                                "&:hover": { color: palette.primary.main },
-                            }}
-                        >
-                            {isLogin ? "LOGIN" : "REGISTER"}
-                        </Button>
-
-                        <Typography
-                            onClick={() => {
-                                setPageType(isLogin ? "register" : "login");
-                                resetForm();
-                            }}
-                            sx={{
-                                textDecoration: "underline",
-                                color: palette.primary.main,
-                                "&:hover": {
-                                    cursor: "pointer",
-                                    color: palette.primary.light
-                                }
-                            }}
-                        >
-                            {isLogin ? "Don't have an Account? Sign Up Here" : "Already have an Account? Login Here"}
-                        </Typography>
-                    </Box>
-
 
                 </form>
             )}
         </Formik>
-
     )
 }
-
-export default Form;
+export default EditProfile

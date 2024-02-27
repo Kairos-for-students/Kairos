@@ -9,6 +9,7 @@ import { createTheme } from "@mui/material/styles";
 import { themeSettings } from "theme";
 import VideoChat from "scenes/videoChatPage";
 import Room from "scenes/videoChatPage/Room";
+import EditProfile from "scenes/EditProfile";
 
 
 
@@ -29,6 +30,8 @@ function App() {
             <Route path="/profile/:userId" element={isAuth ? <ProfilePage /> : <Navigate to="/" />} />
             <Route path="/videochat" element={isAuth ? <VideoChat /> : <Navigate to="/" />} />
             <Route path="/videochat/:roomId" element={isAuth ? <Room /> : <Navigate to="/" />} />
+            <Route path="/profile/:userId/edit" element={isAuth ? <EditProfile /> : <Navigate to="/" />} />
+
           </Routes>
         </ThemeProvider>
       </BrowserRouter>

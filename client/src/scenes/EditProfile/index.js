@@ -1,3 +1,18 @@
+import { Box, Typography, useTheme, useMediaQuery } from "@mui/material";
+import Form from "./Form";
+import Navbar from "scenes/navbar";
+
 const EditProfile = () => {
-    <h1>Edit Profile</h1>
+    const theme = useTheme();
+    const nonMobileScreen = useMediaQuery("(min-width: 924px)");
+
+
+
+    return (
+        <Box>
+            <Navbar />
+        </Box>
+
+    )
 }
+export default EditProfile

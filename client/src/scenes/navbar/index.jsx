@@ -52,7 +52,7 @@ const Navbar = () => {
                 <Box 
                 display="flex" justifyContent="center" alignItems="center"
                 >
-                    <img src="../assets/kairosLogo.png" alt="Logo" width="90rem" />
+                    <img src="https://res.cloudinary.com/dc7es8xpv/image/upload/v1709056414/assets/kairos_logo_1_1_ynvfzn.png" alt="Logo" width="90rem" />
                     <Typography
                         fontWeight="bold"
                         fontSize="clamp(1rem, 2rem, 2.25rem)"
