@@ -27,19 +27,24 @@ const userSchema = new mongoose.Schema(
         },
         picturePath: {
             type: String,
-            default: "maleAvtaar.jpg",
+            default: "",
         },
         friends: {
             type: Array,
             default: [],
         },
-        location: String,
-        occupation: String,
+        communities: {
+            type: Array,
+            default: [],
+        },
+        location: String, 
+        year: Number,
+        college: String,
+        branch: String,
         viewedProfile: Number,
         impressions: Number, 
-
-    },
-    { timestamps: true }
+    }, 
+    { timestamps: true } 
 )
 
 const User = mongoose.model('User', userSchema);

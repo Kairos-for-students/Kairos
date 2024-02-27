@@ -5,18 +5,36 @@ import cloudinary from '../utils/cloudinary.js';
 //Create
 export const createPost = async (req, res) => {
     try {
-        const { userId, description, picturePath } = req.body;
-        console.log("Post request: ", req.params);
+        const { userId, description } = req.body;
+        const picturePath = req.file.path;
+        console.log("Uploaded File:", req.file);
+        console.log("Post request: ", req.body);
         const user = await User.findById(userId);
+
+        let finalPicturePath = null;
 
         if (req.file) {
             // Upload the image to Cloudinary
-            const result = await cloudinary.uploader.upload(picturePath);
+            try {
+                console.log("CLoudinary started...");
+                const result = await cloudinary.uploader.upload(picturePath, {
+                    api_key: process.env.API_KEY,
+                    api_secret: process.env.API_SECRET_KEY,
+                    cloud_name: process.env.CLOUD_NAME,
+                });
 
-            // Get the Cloudinary URL of the uploaded image
-            const finalPicturePath = result.secure_url;
-            console.log("Picture Path:" ,picturePath)
+                console.log("Cloudinary Upload Result:", result);
+                finalPicturePath = result.secure_url;
+                console.log("Picture Path:", finalPicturePath);
+            } catch (error) {
+                console.error("Cloudinary Upload Error:", error);
+                return res.status(500).json({ message: 'Error uploading image to Cloudinary' });
+            }
+        }
 
+        // Check if finalPicturePath is still null
+        if (finalPicturePath === null) {
+            return res.status(500).json({ message: 'Cloudinary upload failed or no file provided' });
         }
 
         const newPost = new Post({
@@ -26,21 +44,20 @@ export const createPost = async (req, res) => {
             location: user.location,
             description,
             userPicturePath: user.picturePath,
-            picturePath: picturePath,
+            picturePath: finalPicturePath,
             likes: {},
-            comments: []
-        })
+            comments: [],
+        });
 
         await newPost.save();
-
-        // const post = await Post.find();
+        console.log(newPost);
 
         res.status(201).json({ message: 'Post added successfully' });
-
     } catch (err) {
         res.status(409).json({ message: err.message });
     }
-}
+};
+
 
 
 //Read

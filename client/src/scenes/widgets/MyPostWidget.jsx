@@ -41,7 +41,7 @@ const MyPostWidget = ({ userId, picturePath }) => {
     const [openAlert, setOpenAlert] = useState(false);
 
     const getPosts = async () => {
-        const response = await fetch("https://kairos-murex.vercel.app/posts", {
+        const response = await fetch("http://localhost:3001/posts", {
             method: "GET",
             headers: { Authorization: `Bearer ${token}` },
         });
@@ -58,9 +58,11 @@ const MyPostWidget = ({ userId, picturePath }) => {
             formdata.append("picturePath", image.name);
         }
 
-        const response = await fetch(`https://kairos-murex.vercel.app/posts`, {
+        const response = await fetch(`http://localhost:3001/posts`, {
             method: "POST",
-            headers: { Authorization: `Bearer ${token}` },
+            headers: {
+                Authorization: `Bearer ${token}`
+            },
             body: formdata,
         });
 
