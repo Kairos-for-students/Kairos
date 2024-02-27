@@ -5,7 +5,8 @@ import cloudinary from '../utils/cloudinary.js';
 //Create
 export const createPost = async (req, res) => {
     try {
-        const { userId, description, picturePath } = req.body;
+        const { userId, description } = req.body;
+        const picturePath = req.file.path;
         console.log("Post request: ", req.params);
         const user = await User.findById(userId);
 
