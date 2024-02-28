@@ -22,7 +22,7 @@ const FriendListWidget = ({ userId }) => {
         const data = await response.json();
         dispatch(setFriends({ friends: data }));
     };
-
+ 
     useEffect(() => {
         getFriends();
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
