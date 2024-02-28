@@ -32,7 +32,7 @@ const Friend = ({ friendId, name, subtitle, userPicturePath, loggedInUserId }) =
     const isFriend = Array.isArray(friends) && friends.find((friend) => friend._id === friendId);
     const patchFriend = async () => {
         const response = await fetch(
-            `http://localhost:3001/users/${_id}/${friendId}`,
+            `kairos-murex.vercel.appusers/${_id}/${friendId}`,
             {
                 method: "PATCH",
                 headers: {

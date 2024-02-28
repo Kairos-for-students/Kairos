@@ -28,7 +28,7 @@ function Room() {
             sharedLinks: [
                 {
                     name: 'Personal link',
-                    url:`http://localhost:3001/videochat/${roomId}`
+                    url:`kairos-murex.vercel.appvideochat/${roomId}`
         },
             ],
             scenario: {

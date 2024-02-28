@@ -82,7 +82,7 @@ const EditProfile = () => {
                 formdata.append("picturePath", values.picture.name);
             }
 
-            const savedUserResponse = await fetch(`http://localhost:3001/users/${_id}/edit`, {
+            const savedUserResponse = await fetch(`kairos-murex.vercel.appusers/${_id}/edit`, {
                 method: "PATCH",
                 body: formdata,
             });

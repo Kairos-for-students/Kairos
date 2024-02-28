@@ -87,7 +87,7 @@ const Form = () => {
             console.log("Form Data:", formdata);
 
             // Send the formdata in the request
-            const savedUserResponse = await fetch("http://localhost:3001/auth/register", {
+            const savedUserResponse = await fetch("kairos-murex.vercel.appauth/register", {
                 method: "POST",
                 body: formdata,
             });
@@ -108,7 +108,7 @@ const Form = () => {
     const login = async (values, onSubmitProps) => {
         try {
             const loggedInResponse = await fetch(
-                "http://localhost:3001/auth/login",
+                "kairos-murex.vercel.appauth/login",
                 {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
