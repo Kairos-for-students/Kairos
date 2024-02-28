@@ -66,7 +66,7 @@ const PostWidget = ({
     };
 
     const patchLike = async () => {
-        const response = await fetch(`kairos-murex.vercel.appposts/${postId}/like`, {
+        const response = await fetch(`kairos-murex.vercel.app/posts/${postId}/like`, {
             method: "PATCH",
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -81,7 +81,7 @@ const PostWidget = ({
     console.log("Post Id: " + postId);
 
     const deletePost = async () => {
-        const response = await fetch(`kairos-murex.vercel.appposts/${postId}/delete`, {
+        const response = await fetch(`kairos-murex.vercel.app/posts/${postId}/delete`, {
             method: "DELETE",
             headers: {
                 Authorization: `Bearer ${token}`,
