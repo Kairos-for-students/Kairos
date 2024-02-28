@@ -27,9 +27,11 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setPosts } from "state";
 import Succes from "components/Succes";
+import { useNavigate } from "react-router-dom";
 
 const MyPostWidget = ({ userId, picturePath }) => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const [isImage, setIsImage] = useState(false);
     const [image, setImage] = useState(null);
     const [post, setPost] = useState("");
@@ -91,7 +93,10 @@ const MyPostWidget = ({ userId, picturePath }) => {
     return (
         <WidgetWrapper>
             <FlexBetween gap="1.5rem">
-                <UserImage image={picturePath} />
+                <Box onClick={() => navigate(`/profile/${userId}`)}>
+                    <UserImage image={picturePath} />
+                </Box>
+
                 <InputBase
                     placeholder="What's on your mind..."
                     onChange={(e) => setPost(e.target.value)}

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { faker } from '@faker-js/faker';
 import {
     Box,
     Button,
@@ -45,8 +46,6 @@ const initialValueRegister = {
     picture: ""
 }
 
-
-
 const initialValueLogin = {
     email: "",
     password: ""
@@ -71,7 +70,7 @@ const Form = () => {
                 // If the current value is "picture" and it's falsy (not selected by the user)
                 if (value === "picture" && !values[value]) {
                     // Append the default picture path directly or use the actual content of the default image
-                    formdata.append(value, "maleAvtaar.jpg"); // Set your default picture path
+                    formdata.append(value, faker.image.avatar()); // Set your default picture path
                 } else {
                     // For other fields, append the values as usual
                     formdata.append(value, values[value]);
@@ -80,7 +79,7 @@ const Form = () => {
 
             // Append the picturePath separately based on whether a picture is selected or not
             if (!values.picture || !values.picture.name) {
-                formdata.append("picturePath", "maleAvtaar.jpg");
+                formdata.append("picturePath", faker.image.avatar());
             } else {
                 formdata.append("picturePath", values.picture.name);
             }
@@ -88,7 +87,7 @@ const Form = () => {
             console.log("Form Data:", formdata);
 
             // Send the formdata in the request
-            const savedUserResponse = await fetch("https://kairos-murex.vercel.app/auth/register", {
+            const savedUserResponse = await fetch("http://localhost:3001/auth/register", {
                 method: "POST",
                 body: formdata,
             });
@@ -107,27 +106,32 @@ const Form = () => {
 
 
     const login = async (values, onSubmitProps) => {
-        const loggedInResponse = await fetch(
-            "https://kairos-murex.vercel.app/auth/login",
-            {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(values),
-            }
-        );
-        const loggedIn = await loggedInResponse.json();
-        onSubmitProps.resetForm();
-        if (loggedIn) {
-            dispatch(
-                setLogin({
-                    user: loggedIn.user,
-                    token: loggedIn.token
+        try {
+            const loggedInResponse = await fetch(
+                "http://localhost:3001/auth/login",
+                {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(values),
                 }
-                )
             );
-            navigate("/home");
+            const loggedIn = await loggedInResponse.json();
+            onSubmitProps.resetForm();
+            if (loggedIn) {
+                dispatch(
+                    setLogin({
+                        user: loggedIn.user,
+                        token: loggedIn.token
+                    }
+                    )
+                );
+                navigate("/home");
+            }
+        } catch (error) {
+            console.error("Login Error:", error);
         }
     }
+
 
     const handleFormSubmit = async (values, onSubmitProps) => {
         if (isLogin) {

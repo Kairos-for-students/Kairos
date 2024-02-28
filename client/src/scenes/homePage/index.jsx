@@ -19,10 +19,11 @@ const HomePage = () => {
             <Box
                 width="100%"
                 padding="2rem 6%"
-                display={isNonMobileScreens ? "flex" : "block"}
+                display={isNonMobileScreens ? "flex" : "none"}
                 gap="0.5rem"
                 justifyContent="space-between"
                 mt="8rem"
+
 
             >
                 <Box flexBasis={isNonMobileScreens ? "26%" : undefined} position="fixed" left="1rem">

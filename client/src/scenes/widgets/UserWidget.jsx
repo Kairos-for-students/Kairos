@@ -22,7 +22,7 @@ const UserWidget = ({ userId, picturePath }) => {
     const main = palette.neutral.main;
 
     const getUser = async () => {
-        const response = await fetch(`https://kairos-murex.vercel.app/users/${userId}`, {
+        const response = await fetch(`http://localhost:3001/users/${userId}`, {
             method: "GET",
             headers: { Authorization: `Bearer ${token}` },
         });
@@ -43,6 +43,8 @@ const UserWidget = ({ userId, picturePath }) => {
         firstname,
         lastname,
         location,
+        college,
+        year, branch,
         viewedProfile,
         impressions,
         friends,
@@ -55,9 +57,9 @@ const UserWidget = ({ userId, picturePath }) => {
             <FlexBetween
                 gap="0.5rem"
                 pb="1.1rem"
-                onClick={() => navigate(`/profile/${userId}`)}
             >
-                <FlexBetween gap="1rem">
+                <FlexBetween gap="1rem" onClick={() => navigate(`/profile/${userId}`)}
+                >
                     <UserImage image={picturePath} />
                     <Box>
                         <Typography
@@ -89,7 +91,7 @@ const UserWidget = ({ userId, picturePath }) => {
                 </Box>
                 <Box display="flex" alignItems="center" gap="1rem">
                     <WorkOutlineOutlined fontSize="large" sx={{ color: main }} />
-                    <Typography color={medium}>{occupation}</Typography>
+                    <Typography color={medium}>{college}</Typography>
                 </Box>
             </Box>
 
@@ -98,15 +100,15 @@ const UserWidget = ({ userId, picturePath }) => {
             {/* THIRD ROW */}
             <Box p="1rem 0">
                 <FlexBetween mb="0.5rem">
-                    <Typography color={medium}>Who's viewed your profile</Typography>
+                    <Typography color={medium}>Branch</Typography>
                     <Typography color={main} fontWeight="500">
-                        {viewedProfile}
+                        {branch}
                     </Typography>
                 </FlexBetween>
                 <FlexBetween>
-                    <Typography color={medium}>Impressions of your post</Typography>
+                    <Typography color={medium}>Year</Typography>
                     <Typography color={main} fontWeight="500">
-                        {impressions}
+                        {year}
                     </Typography>
                 </FlexBetween>
             </Box>

@@ -86,3 +86,66 @@ export const addRemoveFriend = async (req, res) => {
         res.status(404).json({ message: err.message });
     }
 };
+
+export const editUser = async (req, res) => {
+    try {
+        const {
+            firstname,
+            lastname,
+            location,
+            college,
+            year,
+            branch,
+        } = req.body;
+        const { id } = req.params;
+        const picturePath = req.file.path;
+        let finalPicturePath = null;
+
+        const user = await User.findById(id);
+
+        if (req.file) {
+            // Upload the image to Cloudinary
+            try {
+                console.log("CLoudinary started...");
+                const result = await cloudinary.uploader.upload(picturePath, {
+                    api_key: process.env.API_KEY,
+                    api_secret: process.env.API_SECRET_KEY,
+                    cloud_name: process.env.CLOUD_NAME,
+                });
+
+                console.log("Cloudinary Upload Result:", result);
+                finalPicturePath = result.secure_url;
+                console.log("Final Picture Path:", finalPicturePath);
+            } catch (error) {
+                console.error("Cloudinary Upload Error:", error);
+                return res.status(500).json({ message: 'Error uploading image to Cloudinary' });
+            }
+        }
+
+        const updatedFields = {
+            firstname,
+            lastname,
+            friends,
+            location,
+            college,
+            year,
+            branch,
+            communities
+        };
+
+        if (finalPicturePath) {
+            updatedFields.picturePath = finalPicturePath;
+        }
+
+        const updatedUser = await User.findByIdAndUpdate(id, updatedFields, { new: true });
+        console.log("Updated user:", updatedUser)
+
+        if (!updatedUser) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        res.status(200).json({ message: 'User updated successfully', user: updatedUser });
+    } catch (err) {
+        res.status(404).json({ message: err.message });
+    }
+}
