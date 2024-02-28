@@ -11,7 +11,7 @@ const HomePage = () => {
     const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
     const { _id, picturePath } = useSelector((state) => state.user);
     console.log(`UserId:${_id}`)
-    console.log("Picture Path:",picturePath)
+    console.log("Picture Path:", picturePath)
 
     return (
         <Box>
@@ -23,10 +23,12 @@ const HomePage = () => {
                 gap="0.5rem"
                 justifyContent="space-between"
                 mt="8rem"
-                
+
 
             >
-                <Box flexBasis={isNonMobileScreens ? "26%" : undefined} position="fixed" left="1rem" display={isNonMobileScreens ? "flex" : "block"}>
+                <Box flexBasis={isNonMobileScreens ? "26%" : undefined}
+                    position="fixed" left="1rem"
+                    display={isNonMobileScreens ? "flex" : "none"}>
                     <UserWidget userId={_id} picturePath={picturePath} />
                 </Box>
                 <Box
