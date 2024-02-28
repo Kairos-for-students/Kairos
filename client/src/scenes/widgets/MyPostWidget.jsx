@@ -60,7 +60,7 @@ const MyPostWidget = ({ userId, picturePath }) => {
             formdata.append("picturePath", image.name);
         }
 
-        const response = await fetch(`https:/kairos-murex.vercel.app/posts`, {
+        const response = await fetch(`https://kairos-murex.vercel.app/posts`, {
             method: "POST",
             headers: {
                 Authorization: `Bearer ${token}`
