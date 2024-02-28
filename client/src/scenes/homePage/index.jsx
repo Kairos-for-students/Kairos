@@ -19,14 +19,14 @@ const HomePage = () => {
             <Box
                 width="100%"
                 padding="2rem 6%"
-                display={isNonMobileScreens ? "flex" : "none"}
+                display={isNonMobileScreens ? "flex" : "block"}
                 gap="0.5rem"
                 justifyContent="space-between"
                 mt="8rem"
-
+                
 
             >
-                <Box flexBasis={isNonMobileScreens ? "26%" : undefined} position="fixed" left="1rem">
+                <Box flexBasis={isNonMobileScreens ? "26%" : undefined} position="fixed" left="1rem" display={isNonMobileScreens ? "flex" : "block"}>
                     <UserWidget userId={_id} picturePath={picturePath} />
                 </Box>
                 <Box
