@@ -7,8 +7,8 @@ export const createPost = async (req, res) => {
     try {
         const { userId, description } = req.body;
         const picturePath = req.file.path;
-        console.log("Uploaded File:", req.file);
-        console.log("Post request: ", req.body);
+        // console.log("Uploaded File:", req.file);
+        // console.log("Post request: ", req.body);
         const user = await User.findById(userId);
 
         let finalPicturePath = null;
@@ -16,16 +16,16 @@ export const createPost = async (req, res) => {
         if (req.file) {
             // Upload the image to Cloudinary
             try {
-                console.log("CLoudinary started...");
+                // console.log("CLoudinary started...");
                 const result = await cloudinary.uploader.upload(picturePath, {
                     api_key: process.env.API_KEY,
                     api_secret: process.env.API_SECRET_KEY,
                     cloud_name: process.env.CLOUD_NAME,
                 });
 
-                console.log("Cloudinary Upload Result:", result);
+                // console.log("Cloudinary Upload Result:", result);
                 finalPicturePath = result.secure_url;
-                console.log("Picture Path:", finalPicturePath);
+                // console.log("Picture Path:", finalPicturePath);
             } catch (error) {
                 console.error("Cloudinary Upload Error:", error);
                 return res.status(500).json({ message: 'Error uploading image to Cloudinary' });
@@ -50,7 +50,7 @@ export const createPost = async (req, res) => {
         });
 
         await newPost.save();
-        console.log(newPost);
+        // console.log(newPost);
 
         res.status(201).json({ message: 'Post added successfully' });
     } catch (err) {
@@ -86,10 +86,10 @@ export const likePosts = async (req, res) => {
     try {
         const { id } = req.params;
         const { userId } = req.body
-        console.log("post like request params:", req.params);
-        console.log("post like request body:", req.body);
-        console.log("liking post with id:", id)
-        console.log("post liked by:", userId)
+        // console.log("post like request params:", req.params);
+        // console.log("post like request body:", req.body);
+        // console.log("liking post with id:", id)
+        // console.log("post liked by:", userId)
         const post = await Post.findById(id);
         const isLiked = post.likes.get(userId);
 
@@ -122,7 +122,7 @@ export const deletePost = async (req, res) => {
 
         const post = await Post.findByIdAndDelete(id);
 
-        console.log("PostTo be deleted:", post)
+        // console.log("PostTo be deleted:", post)
 
         if (!post) {
             return res.status(404).json({ message: 'Post not found' });

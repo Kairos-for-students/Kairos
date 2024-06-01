@@ -40,7 +40,7 @@ const Navbar = () => {
     const primaryLight = theme.palette.primary.light;
     const alt = theme.palette.background.alt;
     const nonMobileScreen = useMediaQuery("(min-width: 924px)");
-    console.log(nonMobileScreen);
+    // console.log(nonMobileScreen);
 
 
     const fullName = user?.firstname && user?.lastname ? `${user.firstname} ${user.lastname}` : '';

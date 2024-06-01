@@ -66,7 +66,7 @@ const PostWidget = ({
     };
 
     const patchLike = async () => {
-        const response = await fetch(`https://kairos-murex.vercel.app/posts/${postId}/like`, {
+        const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/posts/${postId}/like`, {
             method: "PATCH",
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -78,10 +78,10 @@ const PostWidget = ({
         dispatch(setPost({ post: updatedPost }));
     };
 
-    console.log("Post Id: " + postId);
+    // console.log("Post Id: " + postId);
 
     const deletePost = async () => {
-        const response = await fetch(`https://kairos-murex.vercel.app/posts/${postId}/delete`, {
+        const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/posts/${postId}/delete`, {
             method: "DELETE",
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -94,10 +94,10 @@ const PostWidget = ({
         }
 
         const deletedPostMessage = await response.json();
-        console.log(deletedPostMessage);
+        // console.log(deletedPostMessage);
 
         const updatedPosts = await getPosts();
-        console.log(updatedPosts);
+        // console.log(updatedPosts);
 
     }
 

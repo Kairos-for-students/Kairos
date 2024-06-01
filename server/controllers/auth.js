@@ -1,86 +1,74 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken"
 import User from "../models/user.js";
-import cloudinary from "../utils/cloudinary.js";
+import {v2 as cloudinary} from 'cloudinary';
 
 //Register User
 
 export const register = async (req, res) => {
-    console.log("Register function is called");
+    // console.log("Register function is called");
     try {
-        const {
-            firstname,
-            lastname,
-            email,
-            password,
-            friends,
-            location,
-            college,
-            year, 
-            branch,
-            communities
-        } = req.body;
-        console.log("Received request body:", req.body);
-        const picturePath = req.file.path;
-        console.log("Picture path:", picturePath)
+        let CheckUser = await User.findOne({
+            email: req.body.email,
+        }); 
+
+        if (CheckUser) {
+            return res.status(400).json({ message: "User already exists" })
+        }
+
+        const user = req.body;
+        // console.log("Received request body:", req.body);
+        const picture= req.file;
+        // console.log("Picture:", picture)
 
         const salt = await bcrypt.genSalt();
-        const passwordHash = await bcrypt.hash(password, salt);
-        let finalPicturePath = null;
+        const password = await bcrypt.hash(user.password, salt);
+        // console.log("Password", password)
+
+        user.password = password;
 
         if (req.file) {
             // Upload the image to Cloudinary
             try {
-                console.log("CLoudinary started...");
-                const result = await cloudinary.uploader.upload(picturePath, {
+                // console.log("CLoudinary started...");
+                const result = await cloudinary.uploader.upload(picture.path, {
                     api_key: process.env.API_KEY,
                     api_secret: process.env.API_SECRET_KEY,
                     cloud_name: process.env.CLOUD_NAME,
                 });
 
-                console.log("Cloudinary Upload Result:", result);
-                finalPicturePath = result.secure_url;
-                console.log("Final Picture Path:", finalPicturePath);
+                // console.log("Cloudinary Upload Result:", result);
+                let finalPicturePath = result.secure_url;
+                // console.log("Final Picture Path:", finalPicturePath);
+                user.picturePath = finalPicturePath
             } catch (error) {
                 console.error("Cloudinary Upload Error:", error);
                 return res.status(500).json({ message: 'Error uploading image to Cloudinary' });
             }
         }
 
-        // Check if finalPicturePath is still null
-        if (finalPicturePath === null) {
-            return res.status(500).json({ message: 'Cloudinary upload failed or no file provided' });
-        }
+        const newUser = new User(user);
 
-        const newUser = new User({ 
-            firstname,
-            lastname,
-            email,
-            password: passwordHash,
-            picturePath: finalPicturePath,
-            friends,
-            communities,
-            location,
-            year,
-            college,
-            branch,
-            viewedProfile: Math.floor(Math.random() * 1000),
-            impressions: Math.floor(Math.random() * 1000),
 
-        });
 
         const savedUser = await newUser.save();
-        console.log(`Saved user : ${savedUser}`);
+        // console.log(`Saved user : ${savedUser}`);
         res.status(201).json(savedUser);
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        console.log(err)
+        res.status(500).json({ error: err.message }); 
     }
 };
 
 export const login = async (req, res) => {
+    // console.log(req.body)
     try {
+        // console.log("Function called")
+        // console.log(req.body)
         const { email, password } = req.body;
+        // console.log(email, password)
         const user = await User.findOne({ email: email });
+        // console.log(user)  
         if (!user) {
             return res.status(400).json({ msg: 'User not found' });
         }
@@ -97,3 +85,4 @@ export const login = async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 }
+

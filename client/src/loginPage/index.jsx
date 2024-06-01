@@ -6,7 +6,12 @@ const LoginPage = () => {
     const nonMobileScreen = useMediaQuery("(min-width: 924px)");
 
     return (
-        <Box>
+        <Box
+            display="flex"
+            flexDirection="column"
+            justifyContent="center"
+            alignItems="center"
+        >
             <Box width="100%" bgcolor={theme.palette.background.alt}
                 p="1rem 6%" textAlign="center"
             >
@@ -24,17 +29,26 @@ const LoginPage = () => {
                 p="2rem"
                 m="2rem"
                 border="1.5rem"
+                display="flex"
+                flexDirection="column"
+                justifyContent="center"
+                alignItems="center"
                 bgcolor={theme.palette.background.alt}
+
             >
                 <Typography
                     fontWeight="500" variant="h5" sx={{
-                        mb : "1.5rem", 
+                        mb: "1.5rem",
                     }}
                 >
                     Welcome to Kaioros
-                    <Form />
-
                 </Typography>
+
+                <Box width="100%">
+                    <Form />
+                </Box>
+
+
             </Box>
 
         </Box>

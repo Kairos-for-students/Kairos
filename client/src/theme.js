@@ -31,7 +31,7 @@ export const colorTokens = {
 
 // mui theme settings
 export const themeSettings = (mode) => {
-    console.log("Mode in themeSettings:", mode); 
+    // console.log("Mode in themeSettings:", mode); 
     return {
         palette: {
             mode: mode,

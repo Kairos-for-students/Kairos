@@ -84,10 +84,10 @@ const Form = () => {
                 formdata.append("picturePath", values.picture.name);
             }
 
-            console.log("Form Data:", formdata);
+            // console.log("Form Data:", formdata);
 
             // Send the formdata in the request
-            const savedUserResponse = await fetch("https://kairos-murex.vercel.app/auth/register", {
+            const savedUserResponse = await fetch(`${process.env.REACT_APP_API_BASE_URL}/auth/register`, {
                 method: "POST",
                 body: formdata,
             });
@@ -108,7 +108,7 @@ const Form = () => {
     const login = async (values, onSubmitProps) => {
         try {
             const loggedInResponse = await fetch(
-                "https://kairos-murex.vercel.app/auth/login",
+                `${process.env.REACT_APP_API_BASE_URL}/auth/login`,
                 {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
@@ -353,8 +353,6 @@ const Form = () => {
                             {isLogin ? "Don't have an Account? Sign Up Here" : "Already have an Account? Login Here"}
                         </Typography>
                     </Box>
-
-
                 </form>
             )}
         </Formik>

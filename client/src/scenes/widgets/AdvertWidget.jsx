@@ -10,7 +10,7 @@ const AdvertWidget = () => {
 
     return (
         <WidgetWrapper>
-            <FlexBetween>
+            {/* <FlexBetween>
                 <Typography color={dark} variant="h5" fontWeight="500">
                     Sponsored
                 </Typography>
@@ -30,7 +30,7 @@ const AdvertWidget = () => {
             <Typography color={medium} m="0.5rem 0">
                 Your pathway to stunning and immaculate beauty and made sure your skin
                 is exfoliating skin and shining like light.
-            </Typography>
+            </Typography> */}
         </WidgetWrapper>
     );
 };

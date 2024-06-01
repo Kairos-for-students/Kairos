@@ -59,8 +59,6 @@ app.use("/posts", postRoutes);
 //mongoose set up
 const PORT = process.env.PORT || 6001;
 mongoose.connect(process.env.MONGO_URL, {
-    // useNewUrlParser: true,
-    // useUnifiedTopology: true
 }).then(() => {
     app.listen(PORT, console.log(`Server Port: ${PORT}`)); 
 }).catch((error) => console.error(`${error} did not connect to server`));

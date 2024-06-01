@@ -43,7 +43,7 @@ const MyPostWidget = ({ userId, picturePath }) => {
     const [openAlert, setOpenAlert] = useState(false);
 
     const getPosts = async () => {
-        const response = await fetch("https://", {
+        const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/posts`, {
             method: "GET",
             headers: { Authorization: `Bearer ${token}` },
         });
@@ -60,7 +60,7 @@ const MyPostWidget = ({ userId, picturePath }) => {
             formdata.append("picturePath", image.name);
         }
 
-        const response = await fetch(`https://kairos-murex.vercel.app/posts`, {
+        const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/posts`, {
             method: "POST",
             headers: {
                 Authorization: `Bearer ${token}`
@@ -72,9 +72,9 @@ const MyPostWidget = ({ userId, picturePath }) => {
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
         const newPostMessage = await response.json();
-        console.log(newPostMessage);
+        // console.log(newPostMessage);
         const updatedPosts = await getPosts();
-        console.log(updatedPosts);
+        // console.log(updatedPosts);
         setImage(null);
         setPost("");
     };

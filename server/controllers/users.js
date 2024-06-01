@@ -106,16 +106,16 @@ export const editUser = async (req, res) => {
         if (req.file) {
             // Upload the image to Cloudinary
             try {
-                console.log("CLoudinary started...");
+                // console.log("CLoudinary started...");
                 const result = await cloudinary.uploader.upload(picturePath, {
                     api_key: process.env.API_KEY,
                     api_secret: process.env.API_SECRET_KEY,
                     cloud_name: process.env.CLOUD_NAME,
                 });
 
-                console.log("Cloudinary Upload Result:", result);
+                // console.log("Cloudinary Upload Result:", result);
                 finalPicturePath = result.secure_url;
-                console.log("Final Picture Path:", finalPicturePath);
+                // console.log("Final Picture Path:", finalPicturePath);
             } catch (error) {
                 console.error("Cloudinary Upload Error:", error);
                 return res.status(500).json({ message: 'Error uploading image to Cloudinary' });
@@ -138,7 +138,7 @@ export const editUser = async (req, res) => {
         }
 
         const updatedUser = await User.findByIdAndUpdate(id, updatedFields, { new: true });
-        console.log("Updated user:", updatedUser)
+        // console.log("Updated user:", updatedUser)
 
         if (!updatedUser) {
             return res.status(404).json({ message: 'User not found' });

@@ -15,7 +15,7 @@ const Friend = ({ friendId, name, subtitle, userPicturePath, loggedInUserId }) =
     const { _id } = useSelector((state) => state.user);
     const token = useSelector((state) => state.token);
     const friends = useSelector((state) => state.user.friends);
-    console.log("Friends:", friends);
+    // console.log("Friends:", friends);
 
     const [bookMarkIcon, setBookamrkIcon] = useState(false)
 
@@ -32,7 +32,7 @@ const Friend = ({ friendId, name, subtitle, userPicturePath, loggedInUserId }) =
     const isFriend = Array.isArray(friends) && friends.find((friend) => friend._id === friendId);
     const patchFriend = async () => {
         const response = await fetch(
-            `https://kairos-murex.vercel.app/users/${_id}/${friendId}`,
+            `${process.env.REACT_APP_API_BASE_URL}/users/${_id}/${friendId}`,
             {
                 method: "PATCH",
                 headers: {
