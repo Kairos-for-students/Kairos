@@ -16,8 +16,6 @@ import {
     Button,
     IconButton,
     useMediaQuery,
-    Alert,
-    Snackbar
 } from "@mui/material";
 import FlexBetween from "components/FlexBetween";
 import Dropzone from "react-dropzone";
@@ -71,10 +69,10 @@ const MyPostWidget = ({ userId, picturePath }) => {
         if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
-        const newPostMessage = await response.json();
-        // console.log(newPostMessage);
-        const updatedPosts = await getPosts();
-        // console.log(updatedPosts);
+        // const newPostMessage = await response.json();
+        // // console.log(newPostMessage);
+        // const updatedPosts = await getPosts();
+        // // console.log(updatedPosts);
         setImage(null);
         setPost("");
     };

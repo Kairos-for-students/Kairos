@@ -7,7 +7,6 @@ import {
 } from "@mui/material";
 import Register from "../../components/Register"
 import * as apiClient from "../../apiClient"
-import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import { Formik } from "formik";
 import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
@@ -45,9 +44,8 @@ const initialValueRegister = {
 
 const RegisterForm = () => {
     const { palette } = useTheme();
-    const dispatch = useDispatch();
     const navigate = useNavigate();
-    const nonMobileScreen = useMediaQuery("(min-width:600px)")
+    // const nonMobileScreen = useMediaQuery("(min-width:600px)")
 
     const { mutate, isLoading } = useMutation(apiClient.register, {
         onSuccess: () => {

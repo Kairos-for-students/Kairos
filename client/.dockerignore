@@ -1,0 +1,35 @@
+# Node modules and build directories
+node_modules
+node_modules/
+build
+build/
+
+# Logs
+logs
+*.log
+
+# Dependency directories
+tmp
+temp
+
+# Environment variables
+.env
+.env.*
+
+# MacOS metadata files
+.DS_Store
+
+# Git and related files
+.git
+.gitignore
+
+# Docker files
+Dockerfile
+.dockerignore
+
+# IDE and editor directories
+.vscode
+.idea
+
+# Coverage directory
+coverage

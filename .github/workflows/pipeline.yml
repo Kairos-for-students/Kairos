@@ -6,19 +6,52 @@ on:
             - main
 
 jobs:
-    build-and-deploy:
+    build:
         runs-on: ubuntu-latest
-        steps: 
+        steps:  
             -   name: Checkout code
-                uses: actions/checkout@v3
+                uses: actions/checkout@v4
 
-            -   name: Install Client
+            -   name: Login to Docker Hub
+                run: |
+                    docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+                    
+            -   name: Build client Docker image
                 working-directory: ./client
-                run: 
-                    npm install
-            
-            -   name: Install Client
-                working-directory: ./server
-                run: 
-                    npm install
+                run: |
+                    docker build -t devbulchandani/kairos:client-${{github.run_number}} .
 
+            -   name: Build server Docker image
+                working-directory: ./server
+                run: |
+                    docker build -t devbulchandani/kairos:server-${{github.run_number}} .
+            
+            -   name: Publish images to docker hub
+                run: |
+                    docker push devbulchandani/kairos:client-${{github.run_number}} 
+                    docker push devbulchandani/kairos:server-${{github.run_number}} 
+        
+    deploy:
+        needs: build
+        runs-on: self-hosted
+        steps: 
+            -   name: pull server images from docker hub
+                run: | 
+                    docker pull devbulchandani/kairos:server-${{github.run_number}} 
+            
+            -   name: Run Docker Container
+                run: |
+                    docker run -d \
+                    -p 3001:3001 \
+                    --name kairos-server-container \
+                    -e MONGO_URL="mongodb+srv://devbulchandani876:%40devb001@cluster0.fscrgdf.mongodb.net/?retryWrites=true&w=majority" \
+                    -e JWT_SECRET="Ct>#&RD<76HFu5Bzxe9(Svq2b4QJY$%*s~Xn3]P=-EU{/.WfaG" \
+                    -e PORT=3001 \
+                    -e CLOUD_NAME='dc7es8xpv' \
+                    -e API_KEY='879993354584111' \
+                    -e API_SECRET_KEY='wTnO--ehCVAZo3NY-1gM4htDAqI' \
+                    devbulchandani/kairos:server-${{github.run_number}}
+                    
+                
+
+            

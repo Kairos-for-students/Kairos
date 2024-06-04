@@ -11,10 +11,9 @@ import Friend from "components/Friend";
 import WidgetWrapper from "components/WidgetWrapper";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setPost, setPosts } from "state";
+import { setPost } from "state";
 import DeleteIcon from '@mui/icons-material/Delete';
 import AreYouSure from "components/AreYouSure";
-import Slide from '@mui/material/Slide';
 import Succes from "components/Succes";
 
 

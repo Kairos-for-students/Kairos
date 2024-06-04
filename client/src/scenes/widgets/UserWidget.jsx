@@ -45,8 +45,6 @@ const UserWidget = ({ userId, picturePath }) => {
         location,
         college,
         year, branch,
-        viewedProfile,
-        impressions,
         friends,
     } = user;
     // console.log("User:", user)

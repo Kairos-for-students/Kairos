@@ -1,6 +1,5 @@
 import {
     Box,
-    Button,
     TextField,
     useMediaQuery,
     Typography,
@@ -8,15 +7,9 @@ import {
 } from "@mui/material";
 
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
-import { Formik } from "formik";
-import * as yup from "yup";
-import * as apiClient from "../apiClient.js";
-import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { setLogin } from "state";
+
 import Dropzone from "react-dropzone";
 import FlexBetween from "components/FlexBetween";
-import { useMutation, useQueryClient } from "react-query";
 
 
 const Register = ({values, errors, touched, handleBlur, handleChange, setFieldValue }) => {
