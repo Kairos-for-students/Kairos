@@ -61,7 +61,6 @@ jobs:
 
           docker run -d \
             --init \
-            -p 3000:3000 \
+            -p 3000:80 \
             --name kairos-client-container \
-            -e REACT_APP_API_BASE_URL="http://localhost:3001" \
             devbulchandani/kairos:client-${{github.run_number}}
