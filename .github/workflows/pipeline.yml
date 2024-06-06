@@ -57,4 +57,11 @@ jobs:
             -e CLOUD_NAME='dc7es8xpv' \
             -e API_KEY='879993354584111' \
             -e API_SECRET_KEY='wTnO--ehCVAZo3NY-1gM4htDAqI' \
-            devbulchandani/kai
+            devbulchandani/kairos:server-${{github.run_number}}
+
+          docker run -d \
+            --init \
+            -p 3000:3000 \
+            --name kairos-client-container \
+            -e REACT_APP_API_BASE_URL="http://localhost:3001" \
+            devbulchandani/kairos:client-${{github.run_number}}
