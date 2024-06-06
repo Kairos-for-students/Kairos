@@ -24,7 +24,7 @@ jobs:
             -   name: Build server Docker image 
                 working-directory: ./server
                 run: |
-                    docker build -t devbulchandani/kairos:server-${{github.run_number}} --build-arg REACT_APP_API_BASE_URL=${{ secrets }}  . 
+                    docker build -t devbulchandani/kairos:server-${{github.run_number}} --build-arg REACT_APP_API_BASE_URL=${{ secrets.REACT_APP_API_BASE_URL }}  . 
             
             -   name: Publish images to docker hub
                 run: |
