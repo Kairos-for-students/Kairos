@@ -21,10 +21,10 @@ jobs:
                 run: |
                     docker build -t devbulchandani/kairos:client-${{github.run_number}} .
 
-            -   name: Build server Docker image
+            -   name: Build server Docker image 
                 working-directory: ./server
                 run: |
-                    docker build -t devbulchandani/kairos:server-${{github.run_number}} .
+                    docker build -t devbulchandani/kairos:server-${{github.run_number}} --build-arg REACT_APP_API_BASE_URL=${{ secrets }}  . 
             
             -   name: Publish images to docker hub
                 run: |
@@ -38,6 +38,12 @@ jobs:
             -   name: pull server images from docker hub
                 run: | 
                     docker pull devbulchandani/kairos:server-${{github.run_number}} 
+                    docker pull devbulchandani/kairos:client-${{github.run_number}} 
+
+            -   name: delete old container 
+                run: |
+                    docker rm -f kairos-server-container
+                    docker rm -f kairos-client-container
             
             -   name: Run Docker Container
                 run: |
@@ -51,6 +57,8 @@ jobs:
                     -e API_KEY='879993354584111' \
                     -e API_SECRET_KEY='wTnO--ehCVAZo3NY-1gM4htDAqI' \
                     devbulchandani/kairos:server-${{github.run_number}}
+
+                    docker run -d -p 3000:3000 --name kairos-client-container -e REACT_APP_API_BASE_URL="http://localhost:3001" devbulchandani/kairos:client-${{github.run_number}} 
                     
                 
 
