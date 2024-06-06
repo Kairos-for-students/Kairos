@@ -1,65 +1,60 @@
 name: Build and Deploy
 
 on:
-    push:
-        branches:
-            - main
+  push:
+    branches:
+      - main
 
 jobs:
-    build:
-        runs-on: ubuntu-latest
-        steps:  
-            -   name: Checkout code
-                uses: actions/checkout@v4
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-            -   name: Login to Docker Hub
-                run: |
-                    docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-                    
-            -   name: Build client Docker image
-                working-directory: ./client
-                run: |
-                    docker build -t devbulchandani/kairos:client-${{github.run_number}} .
+      - name: Login to Docker Hub
+        run: |
+          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
 
-            -   name: Build server Docker image 
-                working-directory: ./server
-                run: |
-                    docker build -t devbulchandani/kairos:server-${{github.run_number}} --build-arg REACT_APP_API_BASE_URL=${{ secrets.REACT_APP_API_BASE_URL }}  . 
-            
-            -   name: Publish images to docker hub
-                run: |
-                    docker push devbulchandani/kairos:client-${{github.run_number}} 
-                    docker push devbulchandani/kairos:server-${{github.run_number}} 
-        
-    deploy:
-        needs: build
-        runs-on: self-hosted
-        steps: 
-            -   name: pull server images from docker hub
-                run: | 
-                    docker pull devbulchandani/kairos:server-${{github.run_number}} 
-                    docker pull devbulchandani/kairos:client-${{github.run_number}} 
+      - name: Build client Docker image
+        working-directory: ./client
+        run: |
+          docker build -t devbulchandani/kairos:client-${{github.run_number}} .
 
-            -   name: delete old container 
-                run: |
-                    docker rm -f kairos-server-container
-                    docker rm -f kairos-client-container
-            
-            -   name: Run Docker Container
-                run: |
-                    docker run -d \
-                    -p 3001:3001 \
-                    --name kairos-server-container \
-                    -e MONGO_URL="mongodb+srv://devbulchandani876:%40devb001@cluster0.fscrgdf.mongodb.net/?retryWrites=true&w=majority" \
-                    -e JWT_SECRET="Ct>#&RD<76HFu5Bzxe9(Svq2b4QJY$%*s~Xn3]P=-EU{/.WfaG" \
-                    -e PORT=3001 \
-                    -e CLOUD_NAME='dc7es8xpv' \
-                    -e API_KEY='879993354584111' \
-                    -e API_SECRET_KEY='wTnO--ehCVAZo3NY-1gM4htDAqI' \
-                    devbulchandani/kairos:server-${{github.run_number}}
+      - name: Build server Docker image
+        working-directory: ./server
+        run: |
+          docker build -t devbulchandani/kairos:server-${{github.run_number}} --build-arg REACT_APP_API_BASE_URL=${{ secrets.REACT_APP_API_BASE_URL }} .
 
-                    docker run -d -p 3000:3000 --name kairos-client-container -e REACT_APP_API_BASE_URL="http://localhost:3001" devbulchandani/kairos:client-${{github.run_number}} 
-                    
-                
+      - name: Publish images to Docker Hub
+        run: |
+          docker push devbulchandani/kairos:client-${{github.run_number}} 
+          docker push devbulchandani/kairos:server-${{github.run_number}}
 
-            
+  deploy:
+    needs: build
+    runs-on: self-hosted
+    steps:
+      - name: Pull server images from Docker Hub
+        run: |
+          docker pull devbulchandani/kairos:server-${{github.run_number}} 
+          docker pull devbulchandani/kairos:client-${{github.run_number}}
+
+      - name: Delete old containers
+        run: |
+          docker rm -f kairos-server-container || true
+          docker rm -f kairos-client-container || true
+
+      - name: Run Docker containers
+        run: |
+          docker run -d \
+            --init \
+            -p 3001:3001 \
+            --name kairos-server-container \
+            -e MONGO_URL="mongodb+srv://devbulchandani876:%40devb001@cluster0.fscrgdf.mongodb.net/?retryWrites=true&w=majority" \
+            -e JWT_SECRET="Ct>#&RD<76HFu5Bzxe9(Svq2b4QJY$%*s~Xn3]P=-EU{/.WfaG" \
+            -e PORT=3001 \
+            -e CLOUD_NAME='dc7es8xpv' \
+            -e API_KEY='879993354584111' \
+            -e API_SECRET_KEY='wTnO--ehCVAZo3NY-1gM4htDAqI' \
+            devbulchandani/kai
